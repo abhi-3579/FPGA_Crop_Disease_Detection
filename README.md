@@ -1,119 +1,129 @@
-FPGA-Based Crop Disease Detection Using CNN
-Project Overview
-This project demonstrates CNN-based crop leaf disease classification using Verilog HDL and a Digilent Nexys A7 FPGA development board. A Python host application supplies image data, communicates with the FPGA through UART, and receives a classification result that is displayed on the board's seven-segment display.
+# FPGA-Based Crop Disease Detection Using CNN
 
-The exact preprocessing, data format, CNN architecture, and UART protocol must match the implementation in the source files.
-Objectives
-- Implement CNN inference logic in Verilog HDL.
-- Integrate the CNN core with UART communication.
-- Transfer input data between a host computer and the FPGA.
-- Display the predicted class index on the Nexys A7 seven-segment display.
-- Verify hardware results against a software reference.
-Hardware and Software Requirements
-Hardware
-- Digilent Nexys A7 FPGA development board
-- Computer/laptop
-- USB cable for programming and serial communication
-Software
+## 1. Project Overview
+
+The FPGA-Based Crop Disease Detection System is designed to identify crop leaf diseases using Convolutional Neural Networks (CNN) implemented with Verilog HDL. The system uses the Digilent Nexys A7 FPGA development board to perform hardware-based classification.
+
+A crop leaf image is provided through a Python-based host application. The input data is processed and transferred to the FPGA through UART communication. The CNN core performs classification, and the predicted class index is displayed on the seven-segment display of the FPGA board.
+
+The main objective is to demonstrate the implementation of CNN-based image classification using FPGA hardware acceleration.
+
+## 2. Objectives
+
+- To implement CNN processing using Verilog HDL.
+- To perform crop leaf disease classification.
+- To integrate UART communication between the computer and FPGA.
+- To display classification results using a seven-segment display.
+- To verify the hardware output using Python-based verification.
+
+## 3. Hardware Requirements
+
+- Digilent Nexys A7 FPGA Development Board
+- Computer or Laptop
+- USB Cable
+
+## 4. Software Requirements
+
 - Xilinx Vivado Design Suite
+- Verilog HDL
 - Python 3
-- Python packages required by the supplied scripts
-- Serial communication library or terminal, if required by the implementation
-Repository Structure
-FPGA_Crop_Disease_Detection/
-├── cnn_core.v          # CNN processing core
-├── uart_seg.v          # UART communication and seven-segment display logic
-├── top.v               # Top-level FPGA module
-├── tb_cnn_core.v       # CNN core testbench
-├── nexys_a7.xdc        # Nexys A7 pin constraints
-├── gen_hw.py           # Hardware-data/parameter generation script
-├── verify_twin.py      # Verification/reference comparison script
-└── README.md           # Project documentation
-Working Principle
-1. Image input: A crop leaf image is supplied through the Python host-side application.
-2. Preprocessing: The image is converted into the data format expected by the hardware.
-3. UART transfer: The host application sends the required data to the FPGA using the implemented UART protocol.
-4. CNN processing: The Verilog CNN core processes the input and generates a classification result.
-5. Result display: The result is sent to the display logic and shown as a class index on the Nexys A7 seven-segment display.
-6. Verification: Hardware results can be compared with a software reference using the verification script.
-RTL Module Description
-cnn_core.v
-Contains the CNN processing logic implemented in Verilog HDL. It performs the hardware computations used by the classifier and produces the predicted class result.
-uart_seg.v
-Contains UART communication and seven-segment display-related logic used to transfer and present the classification output.
-top.v
-Top-level module that connects the design blocks, clock/reset signals, communication signals, and display outputs.
-tb_cnn_core.v
-Simulation testbench for applying test inputs to the CNN core and observing its outputs.
-nexys_a7.xdc
-Contains FPGA pin assignments and constraints for the Nexys A7 board. Confirm that the selected board variant matches the constraints.
-Python Script Description
-gen_hw.py
-Supports generation of hardware-related data or parameters used by the FPGA implementation. Check the script for its exact outputs and required arguments.
-verify_twin.py
-Supports verification or comparison between a software reference and the hardware implementation. The exact checks depend on the script configuration.
-Implementation Flow
-Crop Leaf Image
-       |
-       v
-Python Host Application
-       |
-       v
-Image Preprocessing
-       |
-       v
-UART Data Transfer
-       |
-       v
-Nexys A7 FPGA
-       |
-       v
-Verilog CNN Core
-       |
-       v
-Classification Result
-       |
-       v
-Seven-Segment Display
-Disease Classification Demonstration
-The demonstration images have been associated with these disease labels:
-Crop	Disease label
-Pepper Bell	Bacterial Spot
-Strawberry	Leaf Scorch
-Tomato	Early Blight
+- Required Python Libraries
 
+## 5. Project File Structure
 
-The seven-segment display shows a model-specific class index. The mapping between class indices and disease labels must be checked against the class order used during model training and in the implementation.
+The project consists of the following files:
 
-Important: A model prediction is not laboratory confirmation of a disease or pathogen. Confirm the disease labels against the actual dataset and trained model before treating them as verified results.
-How to Run
-1. Clone or download this repository.
-2. Open Vivado and create a project for the correct Nexys A7 board variant.
-3. Add cnn_core.v, uart_seg.v, and top.v as design sources.
-4. Add nexys_a7.xdc as the constraints file.
-5. Set top as the top-level module.
-6. Add tb_cnn_core.v as a simulation source and run the testbench.
-7. Run synthesis and implementation, review any warnings, and generate the bitstream.
-8. Program the FPGA board.
-9. Install the Python dependencies required by the scripts and review their command-line arguments/configuration.
-10. Run the host-side flow, provide a test image, and observe the classification output.
-Before running the design, confirm that the clock frequency, UART baud rate, reset polarity, pin assignments, data format, and Python configuration match the RTL.
-Verification and Results
-The CNN core can be simulated using tb_cnn_core.v. Use verify_twin.py for software/hardware comparison if the script is configured for that purpose.
+**1. cnn_core.v**
 
-For a complete project report, include actual simulation waveforms, FPGA board photographs, input leaf images, displayed class indices, and measured results. Do not claim accuracy, latency, throughput, or power consumption unless these values have been measured and verified.
-Applications
-- Crop leaf disease classification demonstrations
-- FPGA-based CNN inference
-- Hardware acceleration for embedded image-classification systems
-- Educational work in Verilog HDL, digital design, and FPGA development
-Future Enhancements
-- Add more crop types and disease classes.
-- Improve preprocessing and classification performance.
-- Measure FPGA resource utilization, operating frequency, latency, and power.
-- Develop a user-friendly host-side interface.
-- Explore CNN architectures optimized for FPGA implementation.
-Author
-Kunda Abhilasha
-Acknowledgement
-This project demonstrates CNN-based crop disease classification using Verilog HDL, Python, and the Digilent Nexys A7 FPGA development board.
+Implements the CNN processing core using Verilog HDL. It performs the hardware computations required for image classification.
+
+**2. uart_seg.v**
+
+Implements UART communication and seven-segment display-related logic for transferring and displaying classification results.
+
+**3. top.v**
+
+The top-level module that integrates the CNN core, UART communication, and display-related modules.
+
+**4. tb_cnn_core.v**
+
+The testbench used to verify the functionality of the CNN core through simulation.
+
+**5. nexys_a7.xdc**
+
+Contains the FPGA pin assignments and constraints required for the Nexys A7 development board.
+
+**6. gen_hw.py**
+
+Python script used for generating hardware-related data or parameters required by the implementation.
+
+**7. verify_twin.py**
+
+Python script used for verification and comparison between reference and hardware results.
+
+## 6. System Architecture
+
+The system follows the sequence below:
+
+1. Crop leaf image acquisition.
+2. Image preprocessing using Python.
+3. Data transfer through UART communication.
+4. CNN-based processing inside the FPGA.
+5. Classification result generation.
+6. Display of the predicted class index on the seven-segment display.
+
+## 7. Implementation Procedure
+
+1. Develop the CNN processing logic using Verilog HDL.
+2. Integrate the required modules using the top-level module.
+3. Verify the CNN core using the Verilog testbench.
+4. Add the Nexys A7 constraints file in Vivado.
+5. Perform synthesis and implementation.
+6. Generate the FPGA bitstream.
+7. Program the Nexys A7 development board.
+8. Execute the Python-based host application.
+9. Provide crop leaf images and observe the classification output.
+
+## 8. Disease Classification
+
+The demonstration includes the following crop diseases:
+
+| S.No. | Crop Plant | Disease |
+|---|---|---|
+| 1 | Pepper Bell | Bacterial Spot |
+| 2 | Strawberry | Leaf Scorch |
+| 3 | Tomato | Early Blight |
+
+The FPGA displays the corresponding class index based on the trained CNN model. The class index mapping depends on the model's training configuration.
+
+## 9. Results
+
+The proposed system demonstrates the integration of CNN processing, UART communication, and FPGA-based classification. The Nexys A7 board displays the predicted class index through its seven-segment display.
+
+The experimental demonstration shows how FPGA hardware can be used for crop leaf disease classification.
+
+## 10. Applications
+
+- Smart Agriculture
+- Crop Disease Identification
+- FPGA-Based Image Classification
+- Embedded Artificial Intelligence
+- Hardware Acceleration
+
+## 11. Future Scope
+
+- Support for additional crop diseases.
+- Improve classification performance.
+- Optimize FPGA resource utilization.
+- Reduce processing latency and power consumption.
+- Integrate the system with real-time agricultural monitoring applications.
+
+## 12. Author
+
+**Kunda Abhilasha**
+
+**Project Domain:** VLSI Design and FPGA-Based Image Processing
+
+**Hardware Platform:** Digilent Nexys A7 FPGA
+
+**Programming Languages:** Verilog HDL and Python
